@@ -9,6 +9,7 @@ function Subtotal() {
                     <>
 
                         <p>
+                            {/*do this later*/ }
                             Subtotal (0):
                             <strong> 0 </strong>
                         </p>
@@ -18,11 +19,12 @@ function Subtotal() {
                     </>
                 )}
                 decimalScale={2}
-                value={0}
+                value={0} // do this later
                 displayType={"text"}
                 thousandsSeperator={true}
                 prefix={"$"}
             />
+            <button>Proceed to Checkout</button>
         </div>
     )
 }
