@@ -7,7 +7,7 @@ import { useStateValue } from './StateProvider';
 
 
 function Header() {
-    const [{basket}] = useStateValue();
+    const [{ basket }] = useStateValue();
     console.log([basket.length]);
     return (
         <div className='header'>
@@ -20,15 +20,17 @@ function Header() {
                 <SearchIcon className="header__searchIcon"></SearchIcon>
             </div>
             <div className="header__nav">
-                <div className="header__option">
-                    <span className="header__optionLineOne">
-                        Hello Guest
+                <Link to='login'>
+                    <div className="header__option">
+                        <span className="header__optionLineOne">
+                            Hello Guest
                     </span>
 
-                    <span className="header__optionLineTwo">
-                        Sign in
+                        <span className="header__optionLineTwo">
+                            Sign in
                     </span>
-                </div>
+                    </div>
+                </Link>
                 <div className="header__option">
 
                     <span className="header__optionLineOne">
