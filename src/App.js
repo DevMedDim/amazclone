@@ -8,6 +8,7 @@ import PageNotFound from './PageNotFound'
 import Login from "./Login"
 import { auth } from "./firebase"
 import { useStateValue } from "./StateProvider"
+import Payment from "./Payment"
 
 
 function App() {
@@ -51,6 +52,10 @@ dispatch({
             <Route path='/checkout'>
               <Header></Header>
               <Checkout></Checkout>
+            </Route>
+            <Route path='/payment'>
+              <Header></Header>
+              <Payment></Payment>
             </Route>
 
             <Route component={PageNotFound} />
