@@ -3,6 +3,7 @@ import './Subtotal.css'
 import CurrencyFormat from "react-currency-format"
 import { useStateValue } from './StateProvider';
 import { useHistory } from 'react-router';
+import {basketTotal} from './reducer';
 
 
 
@@ -10,10 +11,10 @@ function Subtotal() {
     const history = useHistory();
     const [{ basket }] = useStateValue();
 
-    const basketTotal = (basket) => {
+  {  /*const basketTotal = (basket) => {
         // better put this in the reducer, keep it here for now
         return basket?.reduce((price, item) => item.price + price, 0);
-    }
+    }*/}
     return (
         <div className="subtotal">
             <CurrencyFormat

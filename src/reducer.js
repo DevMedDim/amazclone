@@ -3,7 +3,10 @@ export const initialState = {
     user: null
 };
 
-
+export const basketTotal = (basket) => {
+    // better put this in the reducer, keep it here for now
+    return basket?.reduce((price, item) => item.price + price, 0);
+}
 const reducer = (state, action) => {
     console.log(action);
     switch (action.type) {

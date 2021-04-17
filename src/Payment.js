@@ -1,11 +1,58 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './Payment.css'
 import CheckoutProduct from './CheckoutProduct'
 import { useStateValue } from './StateProvider'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import CurrencyFormat from 'react-currency-format';
+import {basketTotal} from './reducer'
+import axios from './axios';
 
 function Payment() {
     const [{ user, basket }] = useStateValue();
+    const history = useHistory();
+    const [error, setError] = useState(null);
+    const [disabled, setDisabled] = useState(true);
+    const [succeeded, setSucceeded] = useState(false);
+    const [processing, setProcessing] = useState('');
+    const [clientSecret, setClientSecret] = useState(true);
+    const stripe = useStripe();
+    const elements = useElements();
+
+    useEffect(() =>{
+        //generate stripe client secret to charge client
+        const getClientSecret = async () => {
+            const response = await axios({
+                methode: 'post',
+                url: `/payments/create?total=${basketTotal(basket) * 100 }`
+            });
+            setClientSecret(response.data.clientSecret)
+        }
+        getClientSecret();
+    }, [basket])
+    console.log('the secret is =>', clientSecret)
+    const handleSubmit = async (e) => {
+        // stripe code
+        e.preventDefault();
+        setProcessing(true); 
+        const payload = await stripe.confirmCardPayment(clientSecret,{
+            payment_method: {
+                card: elements.getElement(CardElement)
+            }
+        }).then(({ paymentIntent }) =>{
+            // paymentIntent = payment confirmation
+            setSucceeded(true);
+            setError(null);
+            setProcessing(false);
+            history.replace('/orders');
+        })
+    }
+    const handleChange = e => {
+        // listening for changes in the CardElement
+        // and display any error when the user types his card info
+        setDisabled(e.empty);;
+        setError(e.error ? e.error.message : "ddd");
+    }
     return (
         <div className='payment'>
             <div className="payment__container">
@@ -46,8 +93,30 @@ function Payment() {
                     <div className="payment__title">
                         <h3>Payment Method</h3>
                     </div>
-                    <div className="payment__detail">
+                    <div className="payment__details">
                         {/* stripe code goes here */}
+                        <form onSubmit={handleSubmit} action="">
+                            <CardElement onChange={handleChange} />
+                            <div className="payment__priceContainer">
+                                <CurrencyFormat
+                                    renderText={(value) => (
+                                        <>
+                                            <h3>Order total: {value}  </h3>
+                                        </>
+                                    )}
+                                    decimalScale={2}
+                                    value={basketTotal(basket)}
+                                    displayType={"text"}
+                                    thousandsSeperator={true}
+                                    prefix={"$"}
+                                />
+                                <button disabled={processing || disabled || succeeded} >
+                                    <span> {processing ? <p> Processing </p> : "Buy Now"  } </span>
+                                </button>
+                            </div>
+                            {/* Errors */}
+                            {error && <div> {error} </div> }
+                        </form>
                     </div>
                 </div>
 
