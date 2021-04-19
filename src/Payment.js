@@ -23,7 +23,7 @@ function Payment() {
         //generate stripe client secret to charge client
         const getClientSecret = async () => {
             const response = await axios({
-                methode: 'post',
+                method: 'post',
                 url: `/payments/create?total=${basketTotal(basket) * 100 }`
             });
             setClientSecret(response.data.clientSecret)
@@ -50,7 +50,7 @@ function Payment() {
     const handleChange = e => {
         // listening for changes in the CardElement
         // and display any error when the user types his card info
-        setDisabled(e.empty);;
+        setDisabled(e.empty);
         setError(e.error ? e.error.message : "ddd");
     }
     return (

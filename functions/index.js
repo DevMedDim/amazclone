@@ -11,12 +11,15 @@ app.use(cors({origin:true}));
 app.use(express.json());
 // - API ROUTES
 app.get('/',(request,response) => response.status(200).send('hello world'))
+
 app.post('/payments/create', async (request, response)=>{
+
    const total = request.query.total;
    console.log('payment request recieved! for this amount : ', total);
    const paymentIntent = await stripe.paymentIntents.create({
        amount:total, // in the subunit remembver we did *100
        currency:"usd",
+
    });
 
    // this below means OK -- created
@@ -25,7 +28,7 @@ app.post('/payments/create', async (request, response)=>{
    });
 })
 // - LISTEN COMMAND
-exports.api = functions.https.onRequest(app)
+exports.api = functions.https.onRequest(app);
 // EXAMPLE END POINT
 // http://localhost:5001/amaclone-d2e52/us-central1/api
 
