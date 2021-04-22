@@ -45,21 +45,22 @@ function App() {
       <div className="app">
         <Switch>
           <Route path='/login'>
-            <Login></Login>
+            <Login />
           </Route>
           <Route path='/orders'>
-            <Orders></Orders>
+          <Header />
+            <Orders />
           </Route>
           <Route exact path='/'>
-            <Header></Header>
-            <Home></Home>
+            <Header />
+            <Home />
           </Route>
           <Route path='/checkout'>
-            <Header></Header>
-            <Checkout></Checkout>
+            <Header />
+            <Checkout />
           </Route>
           <Route path='/payment'>
-            <Header></Header>
+            <Header />
             <Elements stripe={promise}>
               <Payment />
             </Elements>
