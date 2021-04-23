@@ -69,7 +69,7 @@ function Payment() {
         // listening for changes in the CardElement
         // and display any error when the user types his card info
         setDisabled(e.empty);
-        setError(e.error ? e.error.message : "ddd");
+        setError(e.error ? e.error.message : "something went wrong but go on");
     }
     return (
         <div className='payment'>
