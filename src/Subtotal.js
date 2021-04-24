@@ -11,10 +11,7 @@ function Subtotal() {
     const history = useHistory();
     const [{ basket }] = useStateValue();
 
-  {  /*const basketTotal = (basket) => {
-        // better put this in the reducer, keep it here for now
-        return basket?.reduce((price, item) => item.price + price, 0);
-    }*/}
+  
     return (
         <div className="subtotal">
             <CurrencyFormat
